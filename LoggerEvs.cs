@@ -42,7 +42,6 @@ namespace LoggerEvsSpace
                         swLogs.AutoFlush = true;
                     }
                     swLogs.Write(logsText);
-                                     
                 }
             }
             catch
