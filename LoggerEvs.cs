@@ -12,7 +12,7 @@ namespace LoggerEvsSpace
         public static event LoggerMessageCameHandler messageCame;       // Событие поступления сообщения
         private static string logsFileName = "";                        // Имя файла логов
         private static object syncObj = new object();                   // Объект для синхронизации
-
+        private static StreamWriter swLogs = null;                      // Для записи логов в файл
         /// <summary>
         /// Добавить запись в лог
         /// </summary>
@@ -36,9 +36,13 @@ namespace LoggerEvsSpace
                 // Записать логи
                 lock (syncObj) // Заблокировать доступ к этому участку кода
                 {
-                    StreamWriter swLogs = new StreamWriter(logsFileName, true, Encoding.GetEncoding("Windows-1251"));
+                    if (swLogs == null)
+                    {
+                        swLogs = new StreamWriter(logsFileName, true, Encoding.GetEncoding("Windows-1251"));
+                        swLogs.AutoFlush = true;
+                    }
                     swLogs.Write(logsText);
-                    swLogs.Close();                    
+                                     
                 }
             }
             catch
